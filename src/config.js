@@ -3,7 +3,7 @@ export const config = {
   sections: ["home", "skills", "projects", "contact"],
   home: {
     title: "Jasper Chen",
-    subtitle: "Full stack developer",
+    subtitle: "Fullstack Engineer",
   },
   skills: [
     {

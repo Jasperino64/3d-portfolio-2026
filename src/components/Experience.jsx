@@ -25,7 +25,7 @@ import { useMobile } from "../hooks/useMobile";
 const SECTIONS_DISTANCE = 10;
 
 export const Experience = () => {
-  const { isMobile } = useMobile();
+  const { isMobile, scaleFactor } = useMobile();
   const [section, setSection] = useState(config.sections[0]);
   const sceneContainer = useRef();
   const scrollData = useScroll();
@@ -98,7 +98,7 @@ export const Experience = () => {
   return (
     <>
       <Environment preset="sunset" />
-      <Avatar />
+      <Avatar position-z={isMobile ? -5 : 0} />
 
       {/* SHADOWS & FLOOR */}
       <ContactShadows opacity={0.5} scale={[30, 30]} color="#9c8e66" />
@@ -110,12 +110,12 @@ export const Experience = () => {
       <animated.group ref={sceneContainer}>
         {/* HOME */}
         <animated.group position-y={springs.homeY}>
-          <Star position-z={0} position-y={2.2} scale={0.3} />
+          <Star position-z={isMobile ? 5 : 0} position-y={2.2} scale={0.3} />
           <Float floatIntensity={2} speed={2}>
             <MacBookPro
-              position-x={-1}
-              position-y={0.5}
-              position-z={0}
+              position-x={isMobile ? -5 : -1}
+              position-y={isMobile ? 1 : 0.5}
+              position-z={isMobile ? -2 : 0}
               scale={0.3}
               rotation-y={Math.PI / 4}
             />
@@ -123,34 +123,36 @@ export const Experience = () => {
           <PalmTree
             scale={0.018}
             rotation-y={THREE.MathUtils.degToRad(140)}
-            position={[4, 0, -5]}
+            position={isMobile ? [1, 0, -4] : [4 * scaleFactor, 0, -5]}
           />
-          <Float floatIntensity={0.6}>
+          <group scale={isMobile ? 0.3 : 1}>
+            <Float floatIntensity={0.6}>
+              <Center disableY disableZ>
+                <SectionTitle
+                  size={0.8}
+                  position-y={2.0}
+                  position-z={-3}
+                  bevelEnabled
+                  bevelThickness={0.3}
+                >
+                  {config.home.title}
+                </SectionTitle>
+              </Center>
+            </Float>
             <Center disableY disableZ>
               <SectionTitle
-                size={0.8}
-                position-y={2.0}
-                position-z={-3}
+                size={1}
+                position-x={-0.5}
+                position-y={0.4}
+                position-z={-4.6}
                 bevelEnabled
                 bevelThickness={0.3}
+                rotation-y={Math.PI / 12}
               >
-                {config.home.title}
+                {config.home.subtitle}
               </SectionTitle>
             </Center>
-          </Float>
-          <Center disableY disableZ>
-            <SectionTitle
-              size={1}
-              position-x={-0.5}
-              position-y={0.4}
-              position-z={-4.6}
-              bevelEnabled
-              bevelThickness={0.3}
-              rotation-y={0}
-            >
-              {config.home.subtitle}
-            </SectionTitle>
-          </Center>
+          </group>
         </animated.group>
         {/* SKILLS */}
         <animated.group
@@ -158,7 +160,7 @@ export const Experience = () => {
           position-z={isMobile ? -4 : SECTIONS_DISTANCE}
           position-y={springs.skillsY}
         >
-          <group position-x={-2}>
+          <group position-x={isMobile ? 0 : -2}>
             <SectionTitle position-z={1.5} rotation-y={Math.PI / 6}>
               SKILLS
             </SectionTitle>
@@ -193,7 +195,7 @@ export const Experience = () => {
           position-z={isMobile ? -3 : 2 * SECTIONS_DISTANCE}
           position-y={springs.projectsY}
         >
-          <group position-x={1}>
+          <group position-x={isMobile ? -0.25 : 1}>
             <SectionTitle
               position-x={-0.5}
               position-z={0}
@@ -232,10 +234,13 @@ export const Experience = () => {
           position-z={isMobile ? -4 : 3 * SECTIONS_DISTANCE}
           position-y={springs.contactY}
         >
-          <SectionTitle position-x={-2} position-z={0.6}>
+          <SectionTitle
+            position-x={isMobile ? -1.1 : -2 * scaleFactor}
+            position-z={0.6}
+          >
             CONTACT
           </SectionTitle>
-          <group position-x={-2}>
+          <group position-x={-2 * scaleFactor}>
             <ParkBench
               scale={0.5}
               position-x={-0.5}
@@ -268,8 +273,8 @@ export const Experience = () => {
           />
           <Float floatIntensity={1.5} speed={3}>
             <Pigeon
-              position-x={2}
-              position-y={1.5}
+              position-x={isMobile ? 0 : 2 * scaleFactor}
+              position-y={isMobile ? 2.2 : 1.5}
               position-z={-0.5}
               scale={0.3}
             />
